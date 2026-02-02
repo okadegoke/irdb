@@ -37,10 +37,8 @@ pytestmark = pytest.mark.skip("Takes too much memory")
 class TestInit:
     @pytest.mark.parametrize("modes", [["SCAO", "SPEC_3000x16"],
                                        ["SCAO", "SPEC_3000x48"],
-                                       ["SCAO", "SPEC_15000x20"],
-                                       ["SCAO", "SPEC_3000x20"],
-                                       ["SCAO", "SPEC_3000x50"],
-                                       ["SCAO", "SPEC_15000x50"]])
+                                       ["SCAO", "SPEC_15000x20"]
+                                       ])
     def test_loads_optical_train(self, modes):
         cmds = sim.UserCommands(use_instrument="MICADO", set_modes=modes)
         micado = sim.OpticalTrain(cmds)
@@ -50,7 +48,7 @@ class TestInit:
         assert len(opt_els) == 6
 
     @pytest.mark.skip(reason="This test runs out of memory and hangs.")
-    def test_runs_spec_hk_15000x50(self):
+    def test_runs_spec_hk_15000x20(self):
         src = st.empty_sky()
 
         cmds_img = sim.UserCommands(use_instrument="MICADO",
@@ -62,7 +60,7 @@ class TestInit:
         img_av_flux = np.median(micado_img.image_planes[0].data)
 
         cmds = sim.UserCommands(use_instrument="MICADO",
-                                set_modes=["SCAO", "SPEC_15000x50"])
+                                set_modes=["SCAO", "SPEC_15000x20"])
         cmds.cmds["!OBS.trace_file"] = "TRACE_MICADO.fits"    # Old, missing x=0
         cmds.cmds["!DET.dit"] = 3600
         cmds.cmds["!OBS.filter_name_fw1"] = "open"
