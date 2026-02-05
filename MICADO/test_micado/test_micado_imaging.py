@@ -110,7 +110,7 @@ class TestLimiting:
             plt.imshow(det, norm="log", vmin=np.median(det),
                        vmax=1.01*np.median(det))
 
-        xpix, ypix = src.fields[0]["x"].data, src.fields[0]["y"].data
+        xpix, ypix = src.fields[0].field["x"].data, src.fields[0].field["y"].data
         xpix = xpix / 0.004 + 512
         ypix = ypix / 0.004 + 512
         mags = np.round(np.linspace(mmin, mmax, n_stars), 1)
