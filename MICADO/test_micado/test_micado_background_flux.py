@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Tests the SCAO background against the values from from Ric's excel doc
 [Signal_noise_estimator_MICADO_2018.04.03]
@@ -27,10 +28,15 @@ rc.__config__["!SIM.file.local_packages_path"] = str(PATH_IRDB)
 
 
 class TestInit:
-    @pytest.mark.parametrize("modes", [["SCAO", "IMG_4mas"],
-                                       ["SCAO", "IMG_1.5mas"],
-                                       ["MCAO", "IMG_4mas"],
-                                       ["MCAO", "IMG_1.5mas"]])
+    @pytest.mark.parametrize(
+        "modes",
+        [
+            ["SCAO", "IMG_4mas"],
+            ["SCAO", "IMG_1.5mas"],
+            ["MCAO", "IMG_4mas"],
+            ["MCAO", "IMG_1.5mas"],
+        ],
+    )
     def test_micado_loads_optical_train(self, modes):
         cmds = sim.UserCommands(use_instrument="MICADO", set_modes=modes)
         micado = sim.OpticalTrain(cmds)
@@ -49,14 +55,31 @@ class TestBackgroundLevels:
         0.6	5.0	    28.4	78.7
 
     """
-    @pytest.mark.parametrize("mode, factor", (("IMG_4mas", 1), ("IMG_1.5mas", (1.5 / 4)**2)))
-    @pytest.mark.parametrize("fw1, fw2, bg_flux",
-                             [pytest.param("J", "open", 5, marks=pytest.mark.xfail(reason="Background levels fail due to changes in dev_master.")),
-                              pytest.param("open", "H", 30, marks=pytest.mark.xfail(reason="Background levels fail due to changes in dev_master.")),
-                              ("open", "Ks", 79)])
+
+    @pytest.mark.parametrize(
+        "mode, factor", (("IMG_4mas", 1), ("IMG_1.5mas", (1.5 / 4) ** 2))
+    )
+    @pytest.mark.parametrize(
+        "fw1, fw2, bg_flux", [
+            pytest.param(
+                "J", "open", 5,
+                marks=pytest.mark.xfail(
+                    reason="Fails due to changes in dev_master."
+                ),
+            ),
+            pytest.param(
+                "open", "H", 30,
+                marks=pytest.mark.xfail(
+                    reason="Fails due to changes in dev_master."
+                ),
+            ),
+            ("open", "Ks", 79),
+        ],
+    )
     def test_bg_SCAO_IMG_4mas(self, mode, factor, fw1, fw2, bg_flux):
-        cmds = sim.UserCommands(use_instrument="MICADO",
-                                set_modes=["SCAO", mode])
+        cmds = sim.UserCommands(
+            use_instrument="MICADO", set_modes=["SCAO", mode]
+        )
         micado = sim.OpticalTrain(cmds)
 
         micado["filter_wheel_1"].change_filter(fw1)
