@@ -1,5 +1,13 @@
+# author: Hannah Earnshaw	
+# source: 	
+# date_created: 2026-01-28	
+# date_modified: 2026-02-05	
+# status: estimated	
+# orig_filename: mirror_reflectivity.csv (24nm)	
 # wavelength_unit: nm
-# action: reflection
+# changes:
+#   - 2026-02-05 Reflection units changed from percent to frac
+
 wavelength reflection
 110.0 0.7225320000000001
 111.0 0.741199
