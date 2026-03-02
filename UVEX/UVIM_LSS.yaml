@@ -1,1 +1,64 @@
+object: instrument
+alias: INST
+name: LSS
+description: base configuration for UVIM LSS
 
+properties:
+  pixel_scale: 0.80  # arcsec / pixel
+  plate_scale: 80   # arcsec / mm
+  decouple_detector_from_sky_headers: True  # needed for slit spectroscopy
+
+effects:
+  - name: relay_optics
+    description: list of extra mirrors needed for the spectroscopy mode
+    class: SurfaceList
+    kwargs:
+      filename: LIST_mirrors_relay.tbl
+
+  - name: grating_efficiency 
+    description: grating efficiency
+    class: SpectralEfficiency
+    kwargs:
+      filename: "UVIM_LSS_spectral_efficiency.fits"
+
+  - name: slit_geometry
+    description: slit geometry on the focal plane
+    class: ApertureMask
+    kwargs:
+      filename: "UVIM_LSS_slit_geometry.dat"
+
+  - name : surfaces
+    description : surfaces list for the spectroscopy mode
+    class : SurfaceList
+    kwargs :
+        filename : "LIST_surfaces_LSS.tbl"
+
+  - name: psf
+    description: PSF on the detector (for now ignoring the slit PSF)
+    class: SeeingPSF # simple Gaussian PSF
+    kwargs:
+      fwhm: 2
+      fwhm_unit: arcsec
+
+  - name: spectral_traces 
+    description: spectral trace geometry on the focal plane
+    class: SpectralTraceList
+    kwargs:
+      filename: "UVIM_LSS_spectral_trace.fits"
+      dispersion_file: "UVIM_LSS_dispersion.dat"
+
+# LSS-specific simulation parameters
+---
+object: simulation
+alias: SIM
+name: LSS_simulation_parameters
+description: simulation parameters for UVEX LSS spectroscopy run
+
+properties:
+  spectral:
+    spectral_bin_width: 8.2e-5  # microns, estimate from ETC
+    spectral_resolution: 5000
+    wave_min: 0.1150   
+    wave_mid: 0.2350 
+    wave_max: 0.3550
+    wave_unit: um

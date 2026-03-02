@@ -1,28 +1,28 @@
 object: detector
 alias: DET
-name: uvex_detector
-description: A single 4096x4096 CMOS detector
+name: uvex_lss_detector
+description: Two adjacent 4096x4096 CMOS detectors for LSS mode
 
 properties:
-  detector: UVEX_CMOS
+  detector: UVEX_CMOS_LSS
   image_plane_id: 0
   dit: "!OBS.dit"
   ndit: "!OBS.ndit"
 
 effects:
-  - name: UVEX_Detector
+  - name: LSS_Detector
     class: DetectorList
     include: True
     kwargs:
       array_dict:
         id: [1]
-        pixsize: [0.01]
+        pixsize: [0.01] # 10 microns / pix
         angle: [0.]
         gain: [1.2]
         x_cen: [0]
         y_cen: [0]
-        x_size: [2.56]
-        y_size: [2.56]
+        x_size: [40.96]
+        y_size: [81.92]
       x_cen_unit: mm
       y_cen_unit: mm
       x_size_unit: mm
@@ -30,12 +30,6 @@ effects:
       pixsize_unit: mm
       angle_unit: deg
       gain_unit: electron/adu
-
-  - name: qe_curve
-    description: Quantum efficiency curve
-    class: QuantumEfficiencyCurve
-    kwargs:
-      filename: UVEX_CMOS_QE.dat
 
   - name: dark_current
     description: CMOS detector dark current
