@@ -4,12 +4,13 @@
 object: configuration
 alias: OBS
 name: UVEX_default_config
-description: defatult configuration for UVEX imaging and spectroscopy
+description: default configuration for UVEX imaging and spectroscopy
 status: development
 needs_scopesim: "v0.11.2"
-date_modified: 2026-01-28
+date_modified: 2026-02-18
 changes:
   - 2026-01-28 (HE) initial version
+  - 2026-02-18 (ES) updated default LSS and spectral parameters
 
 packages:
   - UVEX
@@ -49,7 +50,7 @@ mode_yamls:
     status: development
     yamls:
       - UVIM_LSS.yaml
-      - UVIM_DET.yaml
+      - UVIM_DET_LSS.yaml
 
 ---
 object: simulation
@@ -62,7 +63,7 @@ properties:
     seed: 9001
 
   spectral:
-    wave_min: 1000    # In microns
-    wave_mid: 2500
-    wave_max: 4000
-    wave_unit: angstrom
+    wave_min: 0.1150
+    wave_mid: 0.2350
+    wave_max: 0.3550
+    wave_unit: um
